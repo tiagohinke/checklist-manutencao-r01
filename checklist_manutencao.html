@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checklist de Manutenção</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f2f5; min-height: 100vh; padding: 16px; color: #1a1a1a; }
+  .container { max-width: 720px; margin: 0 auto; }
+
+  /* HEADER */
+  .app-header { background: #185FA5; border-radius: 12px; padding: 20px; margin-bottom: 16px; color: #fff; display: flex; align-items: center; gap: 14px; }
+  .app-header .icon { width: 48px; height: 48px; background: rgba(255,255,255,0.15); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 26px; }
+  .app-header h1 { font-size: 18px; font-weight: 600; }
+  .app-header p { font-size: 13px; opacity: 0.8; margin-top: 2px; }
+
+  /* CARD */
+  .card { background: #fff; border-radius: 12px; border: 1px solid #e5e7eb; margin-bottom: 12px; overflow: hidden; }
+  .card-header { display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: #f8fafc; border-bottom: 1px solid #e5e7eb; cursor: pointer; user-select: none; }
+  .card-header .icon { font-size: 20px; }
+  .card-header .title { flex: 1; font-size: 14px; font-weight: 600; color: #1a1a1a; }
+  .card-header .badge { font-size: 11px; padding: 3px 9px; border-radius: 20px; background: #dbeafe; color: #1e40af; font-weight: 500; }
+  .card-header .chevron { font-size: 16px; color: #6b7280; transition: transform 0.2s; }
+  .card-header.collapsed .chevron { transform: rotate(-90deg); }
+  .card-body { padding: 4px 0; display: block; }
+  .card-body.hidden { display: none; }
+
+  /* ITEM */
+  .item { padding: 10px 16px; border-bottom: 1px solid #f3f4f6; }
+  .item:last-child { border-bottom: none; }
+  .item-label { font-size: 13px; color: #374151; margin-bottom: 8px; font-weight: 500; }
+  .radio-group { display: flex; gap: 6px; flex-wrap: wrap; }
+  .rb { padding: 5px 12px; border-radius: 20px; border: 1px solid #d1d5db; font-size: 12px; cursor: pointer; background: #fff; color: #6b7280; transition: all 0.15s; font-weight: 500; }
+  .rb:hover { background: #f9fafb; }
+  .rb.ok.sel { background: #dcfce7; border-color: #16a34a; color: #15803d; }
+  .rb.nok.sel { background: #fee2e2; border-color: #dc2626; color: #b91c1c; }
+  .rb.na.sel { background: #f3f4f6; border-color: #6b7280; color: #374151; }
+  .obs-field { display: none; margin-top: 8px; width: 100%; padding: 7px 10px; border: 1px solid #fca5a5; border-radius: 8px; font-size: 12px; background: #fff5f5; color: #1a1a1a; font-family: inherit; resize: vertical; }
+  .obs-field.show { display: block; }
+
+  /* META FORM */
+  .meta-form { background: #fff; border-radius: 12px; border: 1px solid #e5e7eb; padding: 16px; margin-bottom: 12px; }
+  .meta-form h2 { font-size: 13px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .form-grid label { font-size: 11px; color: #6b7280; display: block; margin-bottom: 4px; font-weight: 500; }
+  .form-grid input, .form-grid select { width: 100%; padding: 8px 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 13px; background: #fff; color: #1a1a1a; font-family: inherit; }
+  .form-grid input:focus, .form-grid select:focus { outline: 2px solid #185FA5; outline-offset: 1px; }
+
+  /* SUMMARY */
+  .summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .stat { background: #fff; border-radius: 10px; border: 1px solid #e5e7eb; padding: 12px; text-align: center; }
+  .stat .n { font-size: 24px; font-weight: 700; }
+  .stat .l { font-size: 11px; color: #6b7280; margin-top: 2px; }
+  .stat.ok .n { color: #16a34a; }
+  .stat.nok .n { color: #dc2626; }
+  .stat.na .n { color: #6b7280; }
+
+  /* BUTTONS */
+  .actions { display: flex; gap: 10px; margin-bottom: 16px; }
+  .btn { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid #d1d5db; font-size: 14px; font-weight: 600; cursor: pointer; background: #fff; color: #374151; font-family: inherit; transition: all 0.15s; }
+  .btn:hover { background: #f9fafb; }
+  .btn.primary { background: #185FA5; border-color: #185FA5; color: #fff; }
+  .btn.primary:hover { background: #1e40af; }
+  .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  /* TOAST */
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: #166534; color: #fff; padding: 12px 24px; border-radius: 10px; font-size: 14px; font-weight: 500; box-shadow: 0 4px 16px rgba(0,0,0,0.2); opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 999; }
+  .toast.show { opacity: 1; }
+  .toast.error { background: #991b1b; }
+
+  /* PROGRESS BAR */
+  .progress-bar-wrap { background: #e5e7eb; border-radius: 20px; height: 6px; margin-bottom: 14px; overflow: hidden; }
+  .progress-bar { height: 100%; background: #185FA5; border-radius: 20px; transition: width 0.3s; }
+
+  @media (max-width: 480px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .summary { grid-template-columns: 1fr 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="app-header">
+    <div class="icon">🚛</div>
+    <div>
+      <h1>Checklist de Manutenção</h1>
+      <p>Preenchimento diário — Caminhões e Equipamentos</p>
+    </div>
+  </div>
+
+  <!-- DADOS DO PREENCHIMENTO -->
+  <div class="meta-form">
+    <h2>Identificação</h2>
+    <div class="form-grid">
+      <div><label>Data</label><input type="date" id="f-data"></div>
+      <div><label>Turno</label><select id="f-turno"><option>Manhã</option><option>Tarde</option><option>Noite</option></select></div>
+      <div><label>Operador / Motorista</label><input type="text" id="f-operador" placeholder="Nome completo"></div>
+      <div><label>Veículo / Equipamento</label><input type="text" id="f-veiculo" placeholder="Ex: Truck 04"></div>
+      <div><label>Placa / TAG</label><input type="text" id="f-placa" placeholder="Ex: ABC-1234"></div>
+      <div><label>Hodômetro / Horímetro</label><input type="text" id="f-hodometro" placeholder="Ex: 128.450 km"></div>
+    </div>
+  </div>
+
+  <!-- PROGRESSO -->
+  <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+
+  <!-- SEÇÕES DO CHECKLIST -->
+  <div id="sections-container"></div>
+
+  <!-- RESUMO -->
+  <div class="summary">
+    <div class="stat ok"><div class="n" id="s-ok">0</div><div class="l">✅ Conformes</div></div>
+    <div class="stat nok"><div class="n" id="s-nok">0</div><div class="l">❌ Não conformes</div></div>
+    <div class="stat na"><div class="n" id="s-na">0</div><div class="l">— N/A</div></div>
+  </div>
+
+  <!-- AÇÕES -->
+  <div class="actions">
+    <button class="btn" onclick="resetForm()">🔄 Limpar</button>
+    <button class="btn primary" id="btn-submit" onclick="submitChecklist()">📤 Enviar Checklist</button>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// ⚙️  CONFIGURAÇÃO — cole sua URL do Google Apps Script aqui
+// ============================================================
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwbGgnBbyQtOS8K93He39yKeqzPyq1YEzAkZtcKpqCvsE23WluLVHQFUc3xEvaGlO4SpA/exec';
+// ============================================================
+
+const SECTIONS = [
+  { id: 'motor', icon: '🛢️', label: 'Motor e Fluidos', items: [
+    'Nível de óleo do motor',
+    'Nível de água / líquido de arrefecimento',
+    'Nível de combustível',
+    'Nível de óleo hidráulico',
+    'Sem vazamentos visíveis (óleo, água, combustível)',
+    'Correias e tensores sem desgaste excessivo',
+  ]},
+  { id: 'freios', icon: '🔧', label: 'Freios e Suspensão', items: [
+    'Freio de serviço — pedal firme, sem esponjamento',
+    'Freio de estacionamento funcional',
+    'Pastilhas / lonas sem desgaste excessivo',
+    'Amortecedores sem vazamento',
+    'Molas / feixes sem trincas ou deformações',
+  ]},
+  { id: 'pneus', icon: '⚫', label: 'Pneus e Rodas', items: [
+    'Pressão dos pneus adequada (todos os eixos)',
+    'Desgaste uniforme dos pneus',
+    'Sem bolhas, cortes ou objetos encravados',
+    'Porcas de roda apertadas (sem folga)',
+    'Estepe disponível e calibrado',
+  ]},
+  { id: 'eletrico', icon: '⚡', label: 'Sistema Elétrico e Iluminação', items: [
+    'Faróis dianteiros (alto e baixo)',
+    'Lanternas e luz de freio traseiras',
+    'Setas e pisca-alerta funcionando',
+    'Luz de ré e buzina de ré',
+    'Bateria sem sulfatação / terminais limpos',
+    'Alternador carregando corretamente',
+  ]},
+  { id: 'cabine', icon: '🪑', label: 'Cabine e Ergonomia', items: [
+    'Cinto de segurança funcional (todos os lugares)',
+    'Espelhos retrovisores ajustados e limpos',
+    'Para-brisas sem trincas ou obstruções',
+    'Limpadores de para-brisas com borracha em bom estado',
+    'Tacógrafo / rastreador ligado e funcionando',
+    'Documentação do veículo no local (CRLV, seguro)',
+    'Extintor de incêndio vigente e acessível',
+    'Triângulo de segurança presente',
+  ]},
+  { id: 'carroceria', icon: '📦', label: 'Carroceria e Implemento', items: [
+    'Travas e fechamentos da carroceria operacionais',
+    'Sem danos estruturais visíveis (amassados, trincas)',
+    'Sinalização refletiva íntegra',
+    'Amarrações / tensores em bom estado (se aplicável)',
+    'Implemento / equipamento sem danos ou vazamentos',
+  ]},
+];
+
+const state = {};
+let totalItems = 0;
+
+function build() {
+  totalItems = 0;
+  SECTIONS.forEach(s => totalItems += s.items.length);
+
+  const c = document.getElementById('sections-container');
+  c.innerHTML = '';
+  SECTIONS.forEach(s => {
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.innerHTML = `
+      <div class="card-header" id="hdr-${s.id}" onclick="toggleSection('${s.id}')">
+        <span class="icon">${s.icon}</span>
+        <span class="title">${s.label}</span>
+        <span class="badge" id="badge-${s.id}">0/${s.items.length}</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="card-body" id="body-${s.id}">
+        ${s.items.map((item, i) => `
+          <div class="item" id="item-${s.id}-${i}">
+            <div class="item-label">${item}</div>
+            <div class="radio-group">
+              <div class="rb ok" onclick="setStatus('${s.id}',${i},'ok',this)">✅ Conforme</div>
+              <div class="rb nok" onclick="setStatus('${s.id}',${i},'nok',this)">❌ Não conforme</div>
+              <div class="rb na" onclick="setStatus('${s.id}',${i},'na',this)">— N/A</div>
+            </div>
+            <textarea class="obs-field" id="obs-${s.id}-${i}" placeholder="Descreva a não conformidade (obrigatório)..." rows="2"></textarea>
+          </div>
+        `).join('')}
+      </div>`;
+    c.appendChild(div);
+  });
+
+  const d = new Date();
+  document.getElementById('f-data').value = d.toISOString().split('T')[0];
+  updateSummary();
+}
+
+function toggleSection(id) {
+  const body = document.getElementById(`body-${id}`);
+  const hdr = document.getElementById(`hdr-${id}`);
+  body.classList.toggle('hidden');
+  hdr.classList.toggle('collapsed');
+}
+
+function setStatus(sec, idx, val, el) {
+  const key = `${sec}-${idx}`;
+  state[key] = val;
+  const item = document.getElementById(`item-${sec}-${idx}`);
+  item.querySelectorAll('.rb').forEach(b => b.classList.remove('sel'));
+  el.classList.add('sel');
+  const obs = document.getElementById(`obs-${sec}-${idx}`);
+  obs.classList.toggle('show', val === 'nok');
+  updateBadge(sec);
+  updateSummary();
+}
+
+function updateBadge(sec) {
+  const s = SECTIONS.find(x => x.id === sec);
+  const done = s.items.filter((_, i) => state[`${sec}-${i}`]).length;
+  document.getElementById(`badge-${sec}`).textContent = `${done}/${s.items.length}`;
+  const allDone = done === s.items.length;
+  document.getElementById(`badge-${sec}`).style.background = allDone ? '#dcfce7' : '#dbeafe';
+  document.getElementById(`badge-${sec}`).style.color = allDone ? '#15803d' : '#1e40af';
+}
+
+function updateSummary() {
+  let ok = 0, nok = 0, na = 0, total = 0;
+  Object.values(state).forEach(v => {
+    total++;
+    if (v === 'ok') ok++;
+    else if (v === 'nok') nok++;
+    else if (v === 'na') na++;
+  });
+  document.getElementById('s-ok').textContent = ok;
+  document.getElementById('s-nok').textContent = nok;
+  document.getElementById('s-na').textContent = na;
+  document.getElementById('progress-bar').style.width = `${Math.round((total / totalItems) * 100)}%`;
+}
+
+function resetForm() {
+  if (!confirm('Limpar todo o checklist?')) return;
+  Object.keys(state).forEach(k => delete state[k]);
+  build();
+}
+
+async function submitChecklist() {
+  const operador = document.getElementById('f-operador').value.trim();
+  const veiculo = document.getElementById('f-veiculo').value.trim();
+  const data = document.getElementById('f-data').value;
+  if (!operador || !veiculo || !data) {
+    showToast('Preencha Data, Operador e Veículo antes de enviar.', true);
+    return;
+  }
+
+  // Monta lista de todos os itens
+  const itens = [];
+  SECTIONS.forEach(s => {
+    s.items.forEach((item, i) => {
+      const key = `${s.id}-${i}`;
+      const status = state[key] || 'Não avaliado';
+      const obs = document.getElementById(`obs-${s.id}-${i}`)?.value.trim() || '';
+      itens.push({ secao: s.label, item, status, observacao: obs });
+    });
+  });
+
+  const payload = {
+    data,
+    turno: document.getElementById('f-turno').value,
+    operador,
+    veiculo,
+    placa: document.getElementById('f-placa').value.trim(),
+    hodometro: document.getElementById('f-hodometro').value.trim(),
+    itens,
+    timestamp: new Date().toLocaleString('pt-BR'),
+  };
+
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true;
+  btn.textContent = '⏳ Enviando...';
+
+  try {
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+    showToast('✅ Checklist enviado com sucesso!');
+    resetForm();
+  } catch (e) {
+    showToast('❌ Erro ao enviar. Verifique a URL do Apps Script.', true);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '📤 Enviar Checklist';
+  }
+}
+
+function showToast(msg, isError = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (isError ? ' error' : '');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+build();
+</script>
+</body>
+</html>
