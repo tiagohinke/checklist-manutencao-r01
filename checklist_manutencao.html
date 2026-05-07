@@ -94,15 +94,25 @@
   <!-- DADOS DO PREENCHIMENTO -->
   <div class="meta-form">
     <h2>Identificação</h2>
+    <div id="cadastros-loading" style="font-size:13px;color:#6b7280;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+      <span style="display:inline-block;width:14px;height:14px;border:2px solid #d1d5db;border-top-color:#185FA5;border-radius:50%;animation:spin 0.8s linear infinite"></span>
+      Carregando lista de operadores e veículos...
+    </div>
     <div class="form-grid">
       <div><label>Data</label><input type="date" id="f-data"></div>
-      <div><label>Turno</label><select id="f-turno"><option>Manhã</option><option>Tarde</option><option>Noite</option></select></div>
-      <div><label>Operador / Motorista</label><input type="text" id="f-operador" placeholder="Nome completo"></div>
+      <div>
+        <label>Operador / Motorista</label>
+        <select id="f-operador"><option value="">— selecione —</option></select>
+      </div>
       <div><label>Veículo / Equipamento</label><input type="text" id="f-veiculo" placeholder="Ex: Truck 04"></div>
-      <div><label>Placa / TAG</label><input type="text" id="f-placa" placeholder="Ex: ABC-1234"></div>
-      <div><label>Hodômetro / Horímetro</label><input type="text" id="f-hodometro" placeholder="Ex: 128.450 km"></div>
+      <div>
+        <label>Placa / TAG</label>
+        <select id="f-placa"><option value="">— selecione —</option></select>
+      </div>
+      <div style="grid-column: span 2"><label>Hodômetro / Horímetro</label><input type="text" id="f-hodometro" placeholder="Ex: 128.450 km"></div>
     </div>
   </div>
+  <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
 
   <!-- PROGRESSO -->
   <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
@@ -131,8 +141,43 @@
 // ============================================================
 // ⚙️  CONFIGURAÇÃO — cole sua URL do Google Apps Script aqui
 // ============================================================
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwbGgnBbyQtOS8K93He39yKeqzPyq1YEzAkZtcKpqCvsE23WluLVHQFUc3xEvaGlO4SpA/exec';
+const APPS_SCRIPT_URL = 'COLE_A_URL_DO_SEU_APPS_SCRIPT_AQUI';
 // ============================================================
+
+// Carrega operadores e placas da aba Cadastros do Sheets
+async function carregarCadastros() {
+  try {
+    const res = await fetch(APPS_SCRIPT_URL + '?acao=cadastros');
+    const data = await res.json();
+
+    const selOp = document.getElementById('f-operador');
+    const selPl = document.getElementById('f-placa');
+
+    (data.operadores || []).forEach(nome => {
+      const opt = document.createElement('option');
+      opt.value = nome; opt.textContent = nome;
+      selOp.appendChild(opt);
+    });
+
+    (data.placas || []).forEach(placa => {
+      const opt = document.createElement('option');
+      opt.value = placa; opt.textContent = placa;
+      selPl.appendChild(opt);
+    });
+
+    // Quando placa muda, preenche veículo automaticamente
+    const veicMap = data.veiculos || {};
+    selPl.addEventListener('change', () => {
+      const v = veicMap[selPl.value];
+      if (v) document.getElementById('f-veiculo').value = v;
+    });
+
+  } catch (err) {
+    console.warn('Não foi possível carregar cadastros:', err);
+  } finally {
+    document.getElementById('cadastros-loading').style.display = 'none';
+  }
+}
 
 const SECTIONS = [
   { id: 'motor', icon: '🛢️', label: 'Motor e Fluidos', items: [
@@ -294,10 +339,9 @@ async function submitChecklist() {
 
   const payload = {
     data,
-    turno: document.getElementById('f-turno').value,
     operador,
     veiculo,
-    placa: document.getElementById('f-placa').value.trim(),
+    placa: document.getElementById('f-placa').value,
     hodometro: document.getElementById('f-hodometro').value.trim(),
     itens,
     timestamp: new Date().toLocaleString('pt-BR'),
@@ -330,6 +374,7 @@ function showToast(msg, isError = false) {
 }
 
 build();
+carregarCadastros();
 </script>
 </body>
 </html>
