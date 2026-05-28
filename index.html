@@ -10,59 +10,48 @@
   @keyframes spin { to { transform: rotate(360deg); } }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* ========== TELA DE LOGIN ========== */
-  #login-screen {
-    min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px;
-    background: linear-gradient(135deg, #0f3460 0%, #185FA5 60%, #1e8bc3 100%);
-  }
-  .login-box {
-    background: #fff; border-radius: 16px; padding: 36px 32px; width: 100%; max-width: 380px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.25); animation: fadeIn 0.4s ease;
-  }
+  /* LOGIN */
+  #login-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; background: linear-gradient(135deg, #0f3460 0%, #185FA5 60%, #1e8bc3 100%); }
+  .login-box { background: #fff; border-radius: 16px; padding: 36px 32px; width: 100%; max-width: 380px; box-shadow: 0 20px 60px rgba(0,0,0,0.25); animation: fadeIn 0.4s ease; }
   .login-logo { text-align: center; margin-bottom: 24px; }
   .login-logo .truck { font-size: 48px; display: block; margin-bottom: 8px; }
   .login-logo h1 { font-size: 20px; font-weight: 700; color: #1a1a1a; }
   .login-logo p { font-size: 13px; color: #6b7280; margin-top: 4px; }
   .login-field { margin-bottom: 14px; }
   .login-field label { display: block; font-size: 12px; font-weight: 600; color: #374151; margin-bottom: 5px; }
-  .login-field input {
-    width: 100%; padding: 10px 12px; border: 1.5px solid #d1d5db; border-radius: 8px;
-    font-size: 14px; font-family: inherit; color: #1a1a1a; transition: border-color 0.15s;
-  }
+  .login-field input { width: 100%; padding: 10px 12px; border: 1.5px solid #d1d5db; border-radius: 8px; font-size: 14px; font-family: inherit; color: #1a1a1a; transition: border-color 0.15s; }
   .login-field input:focus { outline: none; border-color: #185FA5; }
   .login-field input.erro { border-color: #dc2626; background: #fff5f5; }
-  .login-btn {
-    width: 100%; padding: 12px; background: #185FA5; color: #fff; border: none;
-    border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer;
-    font-family: inherit; margin-top: 6px; transition: background 0.15s;
-  }
+  .login-btn { width: 100%; padding: 12px; background: #185FA5; color: #fff; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; margin-top: 6px; transition: background 0.15s; }
   .login-btn:hover { background: #0f3460; }
   .login-btn:disabled { opacity: 0.6; cursor: not-allowed; }
   .login-erro { color: #dc2626; font-size: 13px; text-align: center; margin-top: 12px; min-height: 20px; }
-  .login-spinner {
-    display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.4);
-    border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: -3px; margin-right: 6px;
-  }
+  .login-spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: -3px; margin-right: 6px; }
 
-  /* ========== APP PRINCIPAL ========== */
+  /* APP */
   #app-screen { display: none; padding: 16px; }
   .container { max-width: 720px; margin: 0 auto; }
-
-  .app-header {
-    background: #185FA5; border-radius: 12px; padding: 16px 20px; margin-bottom: 16px;
-    color: #fff; display: flex; align-items: center; gap: 14px;
-  }
+  .app-header { background: #185FA5; border-radius: 12px; padding: 16px 20px; margin-bottom: 16px; color: #fff; display: flex; align-items: center; gap: 14px; }
   .app-header .icon { width: 44px; height: 44px; background: rgba(255,255,255,0.15); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
   .app-header .info { flex: 1; }
   .app-header h1 { font-size: 17px; font-weight: 600; }
   .app-header p { font-size: 12px; opacity: 0.8; margin-top: 2px; }
-  .logout-btn {
-    background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3);
-    color: #fff; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600;
-    cursor: pointer; font-family: inherit; white-space: nowrap;
-  }
+  .logout-btn { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit; white-space: nowrap; }
   .logout-btn:hover { background: rgba(255,255,255,0.25); }
 
+  /* CATEGORIA BADGE */
+  .cat-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 12px; }
+  .cat-badge.carro { background: #dbeafe; color: #1e40af; }
+  .cat-badge.caminhao { background: #fef3c7; color: #92400e; }
+  .cat-badge.pesado { background: #fee2e2; color: #991b1b; }
+  .cat-badge.leve { background: #dcfce7; color: #166534; }
+
+  /* AVISO DE PENDENTES */
+  .aviso-pendentes { background: #fff7ed; border: 1px solid #fed7aa; border-radius: 10px; padding: 12px 14px; margin-bottom: 12px; font-size: 13px; color: #92400e; display: none; }
+  .aviso-pendentes.show { display: block; }
+  .aviso-pendentes strong { display: block; margin-bottom: 4px; }
+
+  /* CARD */
   .card { background: #fff; border-radius: 12px; border: 1px solid #e5e7eb; margin-bottom: 12px; overflow: hidden; }
   .card-header { display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: #f8fafc; border-bottom: 1px solid #e5e7eb; cursor: pointer; user-select: none; }
   .card-header .icon { font-size: 20px; }
@@ -72,9 +61,13 @@
   .card-header.collapsed .chevron { transform: rotate(-90deg); }
   .card-body { padding: 4px 0; }
   .card-body.hidden { display: none; }
+  .card.tem-pendente > .card-header { background: #fff7ed; border-bottom-color: #fed7aa; }
+  .card.tem-pendente > .card-header .badge { background: #fed7aa; color: #92400e; }
 
+  /* ITEM */
   .item { padding: 10px 16px; border-bottom: 1px solid #f3f4f6; }
   .item:last-child { border-bottom: none; }
+  .item.nao-preenchido { background: #fff7ed; }
   .item-label { font-size: 13px; color: #374151; margin-bottom: 8px; font-weight: 500; }
   .radio-group { display: flex; gap: 6px; flex-wrap: wrap; }
   .rb { padding: 5px 12px; border-radius: 20px; border: 1px solid #d1d5db; font-size: 12px; cursor: pointer; background: #fff; color: #6b7280; transition: all 0.15s; font-weight: 500; }
@@ -85,6 +78,7 @@
   .obs-field { display: none; margin-top: 8px; width: 100%; padding: 7px 10px; border: 1px solid #fca5a5; border-radius: 8px; font-size: 12px; background: #fff5f5; color: #1a1a1a; font-family: inherit; resize: vertical; }
   .obs-field.show { display: block; }
 
+  /* META */
   .meta-form { background: #fff; border-radius: 12px; border: 1px solid #e5e7eb; padding: 16px; margin-bottom: 12px; }
   .meta-form h2 { font-size: 12px; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
   .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -92,6 +86,12 @@
   .form-grid input, .form-grid select { width: 100%; padding: 8px 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 13px; background: #fff; color: #1a1a1a; font-family: inherit; }
   .form-grid input:focus, .form-grid select:focus { outline: 2px solid #185FA5; outline-offset: 1px; }
 
+  /* PLACEHOLDER DO CHECKLIST */
+  .checklist-placeholder { background: #fff; border-radius: 12px; border: 1px dashed #d1d5db; padding: 32px; text-align: center; color: #6b7280; margin-bottom: 12px; }
+  .checklist-placeholder .big { font-size: 36px; display: block; margin-bottom: 8px; }
+  .checklist-placeholder p { font-size: 13px; }
+
+  /* SUMMARY */
   .summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px; }
   .stat { background: #fff; border-radius: 10px; border: 1px solid #e5e7eb; padding: 12px; text-align: center; }
   .stat .n { font-size: 24px; font-weight: 700; }
@@ -99,6 +99,7 @@
   .stat.ok .n  { color: #16a34a; }
   .stat.nok .n { color: #dc2626; }
 
+  /* BUTTONS */
   .actions { display: flex; gap: 10px; margin-bottom: 16px; }
   .btn { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid #d1d5db; font-size: 14px; font-weight: 600; cursor: pointer; background: #fff; color: #374151; font-family: inherit; transition: all 0.15s; }
   .btn:hover { background: #f9fafb; }
@@ -137,7 +138,7 @@
 </head>
 <body>
 
-<!-- ========== TELA DE LOGIN ========== -->
+<!-- LOGIN -->
 <div id="login-screen">
   <div class="login-box">
     <div class="login-logo">
@@ -160,7 +161,7 @@
   </div>
 </div>
 
-<!-- ========== APP PRINCIPAL ========== -->
+<!-- APP -->
 <div id="app-screen">
   <div class="container">
 
@@ -184,11 +185,11 @@
           <label>Operador / Motorista</label>
           <select id="f-operador"><option value="">— selecione —</option></select>
         </div>
-        <div><label>Veículo / Equipamento</label><input type="text" id="f-veiculo" placeholder="Ex: Truck 04"></div>
         <div>
           <label>Placa / TAG</label>
-          <select id="f-placa"><option value="">— selecione —</option></select>
+          <select id="f-placa" onchange="onPlacaChange()"><option value="">— selecione —</option></select>
         </div>
+        <div><label>Veículo / Equipamento</label><input type="text" id="f-veiculo" placeholder="Preenchido automaticamente" readonly style="background:#f9fafb;color:#6b7280"></div>
         <div style="grid-column:span 2">
           <label>Hodômetro / Horímetro</label>
           <input type="text" id="f-hodometro" placeholder="Ex: 128.450 km">
@@ -196,11 +197,23 @@
       </div>
     </div>
 
+    <div id="cat-badge-container"></div>
+
     <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
 
-    <div id="sections-container"></div>
+    <div id="aviso-pendentes" class="aviso-pendentes">
+      <strong>⚠️ Itens não preenchidos</strong>
+      <span id="aviso-texto"></span>
+    </div>
 
-    <div class="summary">
+    <div id="sections-container">
+      <div class="checklist-placeholder">
+        <span class="big">🔍</span>
+        <p>Selecione a placa ou TAG para carregar o checklist correspondente</p>
+      </div>
+    </div>
+
+    <div class="summary" id="summary-box" style="display:none">
       <div class="stat ok"><div class="n" id="s-ok">0</div><div class="l">✅ Conformes</div></div>
       <div class="stat nok"><div class="n" id="s-nok">0</div><div class="l">❌ Não conformes</div></div>
       <div class="stat"><div class="n" id="s-na">0</div><div class="l">— N/A</div></div>
@@ -218,12 +231,168 @@
 
 <script>
 // ============================================================
-// ⚙️  CONFIGURAÇÃO — cole sua URL do Google Apps Script aqui
+// ⚙️  CONFIGURAÇÃO
 // ============================================================
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxn4z8pt-wjIo_ljo6Mtqm9CaGLXCtNtpuSPHE-fYDghp03B-gbtcfYxztBkr3N9iS62g/exec';
 // ============================================================
 
+// ---- CHECKLISTS POR CATEGORIA ----
+const CHECKLISTS = {
+
+  'Carros': [
+    { id: 'conservacao', icon: '🚗', label: 'Conservação Geral', items: [
+      'Estado de conservação (chassi / cabine / lataria)',
+      'Placas dianteira e traseira presentes e legíveis',
+      'Faixas refletivas laterais íntegras',
+      'Para-choque dianteiro e traseiro sem danos',
+      'Estado de conservação do implemento (silo térmico / caçamba / outros)',
+    ]},
+    { id: 'iluminacao', icon: '💡', label: 'Iluminação e Sinalização', items: [
+      'Faróis dianteiros (alto e baixo) funcionando',
+      'Lanternas traseiras funcionando',
+      'Luz de freio funcionando',
+      'Pisca-alerta dianteiro e traseiro funcionando',
+      'Limpador de para-brisas e esguicho de água funcionando',
+    ]},
+    { id: 'seguranca', icon: '🛡️', label: 'Segurança e Ergonomia', items: [
+      'Cinto de segurança funcional',
+      'Espelhos retrovisores interno e externo ajustados',
+      'Freio de estacionamento funcionando',
+      'Tacógrafo funcionando',
+      'Velocímetro / painel funcionando',
+    ]},
+    { id: 'pneus', icon: '⚫', label: 'Pneus', items: [
+      'Calibragem dos pneus adequada',
+      'Pneu estepe disponível e calibrado',
+    ]},
+    { id: 'fluidos', icon: '🛢️', label: 'Fluidos e Motor', items: [
+      'Nível de óleo do motor',
+      'Próxima troca de óleo dentro do prazo',
+    ]},
+    { id: 'implementos', icon: '🔩', label: 'Implementos e Acessórios', items: [
+      'Implementos e acessórios (rompedor, gerador, etc.) em bom estado',
+    ]},
+  ],
+
+  'Caminhões': [
+    { id: 'conservacao', icon: '🚚', label: 'Conservação Geral', items: [
+      'Estado de conservação (chassi / cabine / lataria)',
+      'Placas dianteira e traseira presentes e legíveis',
+      'Faixas refletivas laterais íntegras',
+      'Para-choque dianteiro e traseiro sem danos',
+      'Estado de conservação do implemento (silo térmico / caçamba / outros)',
+    ]},
+    { id: 'iluminacao', icon: '💡', label: 'Iluminação e Sinalização', items: [
+      'Faróis dianteiros (alto e baixo) funcionando',
+      'Lanternas traseiras funcionando',
+      'Luz de freio funcionando',
+      'Pisca-alerta dianteiro e traseiro funcionando',
+      'Limpador de para-brisas e esguicho de água funcionando',
+    ]},
+    { id: 'seguranca', icon: '🛡️', label: 'Segurança e Ergonomia', items: [
+      'Cinto de segurança funcional',
+      'Espelhos retrovisores interno e externo ajustados',
+      'Freio de estacionamento funcionando',
+      'Tacógrafo funcionando',
+      'Velocímetro / painel funcionando',
+    ]},
+    { id: 'pneus', icon: '⚫', label: 'Pneus', items: [
+      'Calibragem dos pneus adequada (todos os eixos)',
+      'Pneu estepe disponível e calibrado',
+    ]},
+    { id: 'fluidos', icon: '🛢️', label: 'Fluidos e Motor', items: [
+      'Nível de óleo do motor',
+      'Próxima troca de óleo dentro do prazo',
+    ]},
+    { id: 'implementos', icon: '🔩', label: 'Implementos e Acessórios', items: [
+      'Implementos e acessórios (rompedor, gerador, etc.) em bom estado',
+    ]},
+  ],
+
+  'Equipamentos Pesados': [
+    { id: 'identificacao', icon: '🏷️', label: 'Identificação Visual', items: [
+      'Identificação visual / logo da empresa visível',
+    ]},
+    { id: 'cabine', icon: '🪑', label: 'Cabine e Acesso', items: [
+      'Bancos fixos e em boas condições',
+      'Dispositivos de segurança da cabine (abertura e travamento) funcionando',
+      'Maçanetas das portas (trincos externos e internos) funcionando',
+      'Estribo e corrimão de acesso à cabine em bom estado',
+      'Para-brisas sem trincas ou obstruções',
+      'Limpador de para-brisas e esguicho de água funcionando',
+      'Iluminação interna e luzes do painel funcionando',
+      'Espelhos retrovisores interno e externo ajustados',
+    ]},
+    { id: 'seguranca', icon: '🛡️', label: 'Segurança e Sinalização', items: [
+      'Cinto de segurança funcional',
+      'Buzina funcionando',
+      'Luz de alarme sonoro de marcha ré funcionando',
+      'Pisca-alerta dianteiro e traseiro funcionando',
+      'Faróis dianteiros funcionando',
+      'Extintor de incêndio presente e dentro do prazo de validade',
+      'Gancho com trava de segurança presente e funcional',
+    ]},
+    { id: 'estrutura', icon: '⚙️', label: 'Estrutura e Trem de Força', items: [
+      'Condições das esteiras',
+      'Roda guia / embuchamento da roda guia em bom estado',
+      'Embuchamento de lança / reparo da lança em bom estado',
+      'Embuchamento do braço em bom estado',
+      'Reparo de cilindro da concha em bom estado',
+      'Correias sem desgaste excessivo',
+    ]},
+    { id: 'hidraulico', icon: '💧', label: 'Sistema Hidráulico', items: [
+      'Mangueiras e registros hidráulicos em boas condições',
+    ]},
+    { id: 'motor', icon: '🛢️', label: 'Motor e Fluidos', items: [
+      'Motor de arranque / bateria funcionando',
+      'Nível de água do radiador adequado',
+      'Nível de óleo do motor adequado',
+      'Temperatura do motor dentro do normal',
+      'Condições de fumaça do escapamento normais',
+      'Sem vazamento de combustível ou óleo',
+    ]},
+  ],
+
+  'Equipamentos Leves': [
+    { id: 'motor_leve', icon: '🛢️', label: 'Motor e Fluidos', items: [
+      'Nível de óleo do motor adequado',
+      'Sem vazamento de combustível ou óleo',
+      'Filtro de ar limpo / sem obstrução',
+      'Vela de ignição em boas condições',
+    ]},
+    { id: 'partida', icon: '🔑', label: 'Partida e Funcionamento', items: [
+      'Partida manual (recoil) funcionando sem dificuldade',
+      'Motor funcionando sem ruídos anormais',
+      'Acelerador / controle de rotação respondendo',
+      'Condições de fumaça do escapamento normais',
+    ]},
+    { id: 'estrutura_leve', icon: '🔩', label: 'Estrutura e Segurança', items: [
+      'Proteção / carcaça sem danos estruturais',
+      'Parafusos e fixações apertados',
+      'Mangueiras e conexões sem vazamentos',
+      'Extintor próximo ao local de operação',
+    ]},
+    { id: 'especificos', icon: '⚙️', label: 'Itens Específicos do Equipamento', items: [
+      'Disco / lâmina de corte em bom estado (policorte)',
+      'Placa / sapata de compactação sem trincas (placa vibratória / sapo)',
+      'Mangote e conexões sem furos ou desgaste (motobomba)',
+      'Proteções de segurança / protetor de mãos presentes',
+    ]},
+  ],
+};
+
+const CAT_STYLE = {
+  'Carros':               { cls: 'carro',    emoji: '🚗' },
+  'Caminhões':            { cls: 'caminhao', emoji: '🚚' },
+  'Equipamentos Pesados': { cls: 'pesado',   emoji: '🏗️' },
+  'Equipamentos Leves':   { cls: 'leve',     emoji: '🔧' },
+};
+
 let usuarioLogado = null;
+let dadosCadastros = {};
+let categoriaAtual = null;
+let state = {};
+let totalItems = 0;
 
 // ---- LOGIN ----
 async function fazerLogin() {
@@ -231,23 +400,19 @@ async function fazerLogin() {
   const senha   = document.getElementById('l-senha').value;
   const erro    = document.getElementById('login-erro');
   const btn     = document.getElementById('login-btn');
-
   if (!usuario || !senha) { erro.textContent = 'Preencha usuário e senha.'; return; }
-
   btn.disabled = true;
   btn.innerHTML = '<span class="login-spinner"></span> Verificando...';
   erro.textContent = '';
-
   try {
-    const res  = await fetch(`${APPS_SCRIPT_URL}?acao=login&usuario=${encodeURIComponent(usuario)}&senha=${encodeURIComponent(senha)}`);
+    const res  = await fetch(APPS_SCRIPT_URL + '?acao=login&usuario=' + encodeURIComponent(usuario) + '&senha=' + encodeURIComponent(senha));
     const data = await res.json();
-
     if (data.ok) {
       usuarioLogado = data;
       document.getElementById('login-screen').style.display = 'none';
       document.getElementById('app-screen').style.display   = 'block';
       document.getElementById('header-usuario').textContent = '👤 ' + data.nome;
-      build();
+      document.getElementById('f-data').value = new Date().toISOString().split('T')[0];
       carregarCadastros();
     } else {
       erro.textContent = '❌ Usuário ou senha incorretos.';
@@ -258,8 +423,7 @@ async function fazerLogin() {
   } catch (e) {
     erro.textContent = '⚠️ Erro de conexão. Verifique o Apps Script.';
   } finally {
-    btn.disabled = false;
-    btn.textContent = 'Entrar';
+    btn.disabled = false; btn.textContent = 'Entrar';
   }
 }
 
@@ -273,6 +437,7 @@ function fazerLogout() {
   document.getElementById('login-erro').textContent = '';
   document.getElementById('l-usuario').classList.remove('erro');
   document.getElementById('l-senha').classList.remove('erro');
+  resetForm();
 }
 
 // ---- CADASTROS ----
@@ -280,6 +445,8 @@ async function carregarCadastros() {
   try {
     const res  = await fetch(APPS_SCRIPT_URL + '?acao=cadastros');
     const data = await res.json();
+    dadosCadastros = data;
+
     const selOp = document.getElementById('f-operador');
     const selPl = document.getElementById('f-placa');
 
@@ -291,12 +458,6 @@ async function carregarCadastros() {
       const opt = document.createElement('option');
       opt.value = placa; opt.textContent = placa; selPl.appendChild(opt);
     });
-
-    const veicMap = data.veiculos || {};
-    selPl.addEventListener('change', () => {
-      const v = veicMap[selPl.value];
-      if (v) document.getElementById('f-veiculo').value = v;
-    });
   } catch (e) {
     console.warn('Cadastros não carregados:', e);
   } finally {
@@ -304,74 +465,85 @@ async function carregarCadastros() {
   }
 }
 
-// ---- CHECKLIST ----
-const SECTIONS = [
-  { id: 'motor', icon: '🛢️', label: 'Motor e Fluidos', items: [
-    'Nível de óleo do motor','Nível de água / líquido de arrefecimento',
-    'Nível de combustível','Nível de óleo hidráulico',
-    'Sem vazamentos visíveis (óleo, água, combustível)','Correias e tensores sem desgaste excessivo',
-  ]},
-  { id: 'freios', icon: '🔧', label: 'Freios e Suspensão', items: [
-    'Freio de serviço — pedal firme, sem esponjamento','Freio de estacionamento funcional',
-    'Pastilhas / lonas sem desgaste excessivo','Amortecedores sem vazamento',
-    'Molas / feixes sem trincas ou deformações',
-  ]},
-  { id: 'pneus', icon: '⚫', label: 'Pneus e Rodas', items: [
-    'Pressão dos pneus adequada (todos os eixos)','Desgaste uniforme dos pneus',
-    'Sem bolhas, cortes ou objetos encravados','Porcas de roda apertadas (sem folga)','Estepe disponível e calibrado',
-  ]},
-  { id: 'eletrico', icon: '⚡', label: 'Sistema Elétrico e Iluminação', items: [
-    'Faróis dianteiros (alto e baixo)','Lanternas e luz de freio traseiras',
-    'Setas e pisca-alerta funcionando','Luz de ré e buzina de ré',
-    'Bateria sem sulfatação / terminais limpos','Alternador carregando corretamente',
-  ]},
-  { id: 'cabine', icon: '🪑', label: 'Cabine e Ergonomia', items: [
-    'Cinto de segurança funcional (todos os lugares)','Espelhos retrovisores ajustados e limpos',
-    'Para-brisas sem trincas ou obstruções','Limpadores de para-brisas com borracha em bom estado',
-    'Tacógrafo / rastreador ligado e funcionando','Documentação do veículo no local (CRLV, seguro)',
-    'Extintor de incêndio vigente e acessível','Triângulo de segurança presente',
-  ]},
-  { id: 'carroceria', icon: '📦', label: 'Carroceria e Implemento', items: [
-    'Travas e fechamentos da carroceria operacionais','Sem danos estruturais visíveis (amassados, trincas)',
-    'Sinalização refletiva íntegra','Amarrações / tensores em bom estado (se aplicável)',
-    'Implemento / equipamento sem danos ou vazamentos',
-  ]},
-];
+function onPlacaChange() {
+  const placa = document.getElementById('f-placa').value;
+  if (!placa) {
+    document.getElementById('f-veiculo').value = '';
+    limparChecklist();
+    return;
+  }
 
-const state = {};
-let totalItems = 0;
+  // Preenche veículo automaticamente
+  const veicMap = dadosCadastros.veiculos || {};
+  document.getElementById('f-veiculo').value = veicMap[placa] || '';
 
-function build() {
-  totalItems = 0;
-  SECTIONS.forEach(s => totalItems += s.items.length);
+  // Carrega checklist pela categoria
+  const catMap = dadosCadastros.categorias || {};
+  const categoria = catMap[placa];
+  if (categoria && CHECKLISTS[categoria]) {
+    carregarChecklist(categoria);
+  } else {
+    limparChecklist();
+    showToast('⚠️ Categoria não encontrada para esta placa. Verifique a aba Cadastros.', true);
+  }
+}
+
+function carregarChecklist(categoria) {
+  categoriaAtual = categoria;
+  state = {};
+  const sections = CHECKLISTS[categoria];
+  totalItems = sections.reduce((acc, s) => acc + s.items.length, 0);
+
+  // Badge de categoria
+  const style = CAT_STYLE[categoria] || { cls: '', emoji: '🔧' };
+  const badgeEl = document.getElementById('cat-badge-container');
+  badgeEl.innerHTML = '<span class="cat-badge ' + style.cls + '">' + style.emoji + ' ' + categoria + '</span>';
+
+  // Monta seções
   const c = document.getElementById('sections-container');
   c.innerHTML = '';
-  SECTIONS.forEach(s => {
+  sections.forEach(s => {
     const div = document.createElement('div');
     div.className = 'card';
-    div.innerHTML = `
-      <div class="card-header" id="hdr-${s.id}" onclick="toggleSection('${s.id}')">
-        <span class="icon">${s.icon}</span>
-        <span class="title">${s.label}</span>
-        <span class="badge" id="badge-${s.id}">0/${s.items.length}</span>
-        <span class="chevron">▾</span>
-      </div>
-      <div class="card-body" id="body-${s.id}">
-        ${s.items.map((item, i) => `
-          <div class="item" id="item-${s.id}-${i}">
-            <div class="item-label">${item}</div>
-            <div class="radio-group">
-              <div class="rb ok"  onclick="setStatus('${s.id}',${i},'ok',this)">✅ Conforme</div>
-              <div class="rb nok" onclick="setStatus('${s.id}',${i},'nok',this)">❌ Não conforme</div>
-              <div class="rb na"  onclick="setStatus('${s.id}',${i},'na',this)">— N/A</div>
-            </div>
-            <textarea class="obs-field" id="obs-${s.id}-${i}" placeholder="Descreva a não conformidade..." rows="2"></textarea>
-          </div>`).join('')}
-      </div>`;
+    div.id = 'card-' + s.id;
+    div.innerHTML =
+      '<div class="card-header" id="hdr-' + s.id + '" onclick="toggleSection(\'' + s.id + '\')">' +
+        '<span class="icon">' + s.icon + '</span>' +
+        '<span class="title">' + s.label + '</span>' +
+        '<span class="badge" id="badge-' + s.id + '">0/' + s.items.length + '</span>' +
+        '<span class="chevron">▾</span>' +
+      '</div>' +
+      '<div class="card-body" id="body-' + s.id + '">' +
+        s.items.map((item, i) =>
+          '<div class="item" id="item-' + s.id + '-' + i + '">' +
+            '<div class="item-label">' + item + '</div>' +
+            '<div class="radio-group">' +
+              '<div class="rb ok"  onclick="setStatus(\'' + s.id + '\',' + i + ',\'ok\',this)">✅ Conforme</div>' +
+              '<div class="rb nok" onclick="setStatus(\'' + s.id + '\',' + i + ',\'nok\',this)">❌ Não conforme</div>' +
+              '<div class="rb na"  onclick="setStatus(\'' + s.id + '\',' + i + ',\'na\',this)">— N/A</div>' +
+            '</div>' +
+            '<textarea class="obs-field" id="obs-' + s.id + '-' + i + '" placeholder="Descreva a não conformidade..." rows="2"></textarea>' +
+          '</div>'
+        ).join('') +
+      '</div>';
     c.appendChild(div);
   });
-  document.getElementById('f-data').value = new Date().toISOString().split('T')[0];
+
+  document.getElementById('summary-box').style.display = 'grid';
+  document.getElementById('aviso-pendentes').classList.remove('show');
   updateSummary();
+}
+
+function limparChecklist() {
+  categoriaAtual = null;
+  state = {};
+  totalItems = 0;
+  document.getElementById('cat-badge-container').innerHTML = '';
+  document.getElementById('sections-container').innerHTML =
+    '<div class="checklist-placeholder"><span class="big">🔍</span><p>Selecione a placa ou TAG para carregar o checklist correspondente</p></div>';
+  document.getElementById('summary-box').style.display = 'none';
+  document.getElementById('aviso-pendentes').classList.remove('show');
+  document.getElementById('progress-bar').style.width = '0%';
 }
 
 function toggleSection(id) {
@@ -381,20 +553,28 @@ function toggleSection(id) {
 
 function setStatus(sec, idx, val, el) {
   state[sec + '-' + idx] = val;
-  document.getElementById('item-' + sec + '-' + idx).querySelectorAll('.rb').forEach(b => b.classList.remove('sel'));
+  const itemEl = document.getElementById('item-' + sec + '-' + idx);
+  itemEl.querySelectorAll('.rb').forEach(b => b.classList.remove('sel'));
   el.classList.add('sel');
+  itemEl.classList.remove('nao-preenchido');
   document.getElementById('obs-' + sec + '-' + idx).classList.toggle('show', val === 'nok');
   updateBadge(sec);
   updateSummary();
 }
 
 function updateBadge(sec) {
-  const s = SECTIONS.find(x => x.id === sec);
+  const sections = CHECKLISTS[categoriaAtual] || [];
+  const s = sections.find(x => x.id === sec);
+  if (!s) return;
   const done = s.items.filter((_, i) => state[sec + '-' + i]).length;
   const badge = document.getElementById('badge-' + sec);
   badge.textContent      = done + '/' + s.items.length;
   badge.style.background = done === s.items.length ? '#dcfce7' : '#dbeafe';
   badge.style.color      = done === s.items.length ? '#15803d' : '#1e40af';
+  // Destaca card se tiver pendentes
+  const card = document.getElementById('card-' + sec);
+  const temPendente = s.items.some((_, i) => !state[sec + '-' + i]);
+  if (card) card.classList.toggle('tem-pendente', temPendente && done > 0);
 }
 
 function updateSummary() {
@@ -406,30 +586,78 @@ function updateSummary() {
   document.getElementById('s-ok').textContent  = ok;
   document.getElementById('s-nok').textContent = nok;
   document.getElementById('s-na').textContent  = na;
-  document.getElementById('progress-bar').style.width = Math.round((total / totalItems) * 100) + '%';
+  document.getElementById('progress-bar').style.width = totalItems > 0 ? Math.round((total / totalItems) * 100) + '%' : '0%';
 }
 
 function resetForm() {
-  if (!confirm('Limpar todo o checklist?')) return;
-  Object.keys(state).forEach(k => delete state[k]);
   document.getElementById('f-operador').selectedIndex = 0;
   document.getElementById('f-placa').selectedIndex    = 0;
   document.getElementById('f-veiculo').value   = '';
   document.getElementById('f-hodometro').value = '';
-  build();
+  document.getElementById('f-data').value = new Date().toISOString().split('T')[0];
+  limparChecklist();
+}
+
+// ---- VALIDAÇÃO E ENVIO ----
+function validarChecklist() {
+  if (!categoriaAtual) return { ok: false, msg: 'Selecione uma placa para carregar o checklist.' };
+
+  const sections = CHECKLISTS[categoriaAtual];
+  const pendentes = [];
+
+  sections.forEach(s => {
+    s.items.forEach((item, i) => {
+      if (!state[s.id + '-' + i]) {
+        pendentes.push({ secId: s.id, idx: i, secLabel: s.label, item });
+      }
+    });
+  });
+
+  if (pendentes.length > 0) {
+    // Destaca itens não preenchidos
+    pendentes.forEach(p => {
+      const el = document.getElementById('item-' + p.secId + '-' + p.idx);
+      if (el) el.classList.add('nao-preenchido');
+      // Abre a seção que tem pendente
+      const body = document.getElementById('body-' + p.secId);
+      const hdr  = document.getElementById('hdr-'  + p.secId);
+      if (body && body.classList.contains('hidden')) {
+        body.classList.remove('hidden');
+        hdr.classList.remove('collapsed');
+      }
+    });
+
+    const aviso = document.getElementById('aviso-pendentes');
+    document.getElementById('aviso-texto').textContent =
+      pendentes.length + ' item(ns) não preenchido(s). Os campos destacados em laranja precisam ser avaliados antes do envio.';
+    aviso.classList.add('show');
+    aviso.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return { ok: false };
+  }
+
+  document.getElementById('aviso-pendentes').classList.remove('show');
+  return { ok: true };
 }
 
 async function submitChecklist() {
   const operador = document.getElementById('f-operador').value;
   const veiculo  = document.getElementById('f-veiculo').value.trim();
   const data     = document.getElementById('f-data').value;
-  if (!operador || !veiculo || !data) {
-    showToast('Preencha Data, Operador e Veículo antes de enviar.', true);
+
+  if (!operador || !data) {
+    showToast('Preencha Data e Operador antes de enviar.', true);
+    return;
+  }
+  if (!categoriaAtual) {
+    showToast('Selecione uma placa para carregar o checklist.', true);
     return;
   }
 
+  const validacao = validarChecklist();
+  if (!validacao.ok) return;
+
   const itens = [];
-  SECTIONS.forEach(s => {
+  CHECKLISTS[categoriaAtual].forEach(s => {
     s.items.forEach((item, i) => {
       itens.push({
         secao: s.label, item,
@@ -443,6 +671,7 @@ async function submitChecklist() {
     data, operador, veiculo,
     placa:     document.getElementById('f-placa').value,
     hodometro: document.getElementById('f-hodometro').value.trim(),
+    categoria: categoriaAtual,
     usuario:   usuarioLogado ? usuarioLogado.usuario : '',
     itens,
     timestamp: new Date().toLocaleString('pt-BR'),
@@ -456,7 +685,7 @@ async function submitChecklist() {
     showToast('✅ Checklist enviado com sucesso!');
     resetForm();
   } catch (e) {
-    showToast('❌ Erro ao enviar. Verifique a URL do Apps Script.', true);
+    showToast('❌ Erro ao enviar. Verifique o Apps Script.', true);
   } finally {
     btn.disabled = false; btn.textContent = '📤 Enviar Checklist';
   }
