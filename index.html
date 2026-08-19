@@ -77,6 +77,8 @@
   .rb.na.sel  { background: #f3f4f6; border-color: #6b7280; color: #374151; }
   .obs-field { display: none; margin-top: 8px; width: 100%; padding: 7px 10px; border: 1px solid #fca5a5; border-radius: 8px; font-size: 12px; background: #fff5f5; color: #1a1a1a; font-family: inherit; resize: vertical; }
   .obs-field.show { display: block; }
+  .obs-field.obrigatorio.show { border-color: #fca5a5; }
+  .obs-field.obrigatorio.show.vazia { border-color: #dc2626; background: #fff0f0; box-shadow: 0 0 0 2px rgba(220,38,38,0.15); }
 
   /* META */
   .meta-form { background: #fff; border-radius: 12px; border: 1px solid #e5e7eb; padding: 16px; margin-bottom: 12px; }
@@ -219,6 +221,21 @@
       <div class="stat"><div class="n" id="s-na">0</div><div class="l">— N/A</div></div>
     </div>
 
+    <div class="obs-gerais-box" id="obs-gerais-box" style="display:none">
+      <div class="card" style="margin-bottom:12px">
+        <div class="card-header" style="cursor:default">
+          <span class="icon">📝</span>
+          <span class="title">Observações Gerais</span>
+        </div>
+        <div class="card-body" style="padding:12px 16px">
+          <label style="font-size:12px;color:#6b7280;font-weight:500;display:block;margin-bottom:6px">
+            Registre aqui não conformidades ou observações que não se enquadram nos itens acima (opcional)
+          </label>
+          <textarea id="obs-gerais" rows="4" style="width:100%;padding:8px 10px;border:1px solid #d1d5db;border-radius:8px;font-size:13px;font-family:inherit;resize:vertical;color:#1a1a1a" placeholder="Ex: Documento vencido, comportamento do operador, condições da via, etc."></textarea>
+        </div>
+      </div>
+    </div>
+
     <div class="actions">
       <button class="btn" onclick="resetForm()">🔄 Limpar</button>
       <button class="btn primary" id="btn-submit" onclick="submitChecklist()">📤 Enviar Checklist</button>
@@ -277,38 +294,56 @@ const CHECKLISTS = {
 
   'Caminhões': [
     { id: 'conservacao', icon: '🚚', label: 'Conservação Geral', items: [
-      'Estado de conservação (chassi / cabine / lataria)',
-      'Placas dianteira e traseira presentes e legíveis',
-      'Faixas refletivas laterais íntegras',
-      'Para-choque dianteiro e traseiro sem danos',
-      'Estado de conservação do implemento (silo térmico / caçamba / outros)',
+      'Chassi / Cabine / Casinha / Lataria — condições gerais de conservação',
+      'Placa do veículo — dianteira e traseira',
+      'Adesivos de identificação / faixas refletivas (não conforme: descascados, rasgados ou apagados)',
+      'Para-choques dianteiro e traseiro',
+      'Estado de conservação do implemento — Silo Térmico / Caçamba / Outros',
+      'Limpeza (não conforme: lixeiras, excesso de resíduos que prejudiquem a operação)',
+      'Estado de conservação dos bancos (cabine e casinha)',
     ]},
     { id: 'iluminacao', icon: '💡', label: 'Iluminação e Sinalização', items: [
-      'Faróis dianteiros (alto e baixo) funcionando',
-      'Lanternas traseiras funcionando',
-      'Luz de freio funcionando',
-      'Pisca-alerta dianteiro e traseiro funcionando',
-      'Limpador de para-brisas e esguicho de água funcionando',
+      'Faróis dianteiros (alto e baixo)',
+      'Lanternas traseiras',
+      'Luzes de freio / posição / placa',
+      'Luz de ré / Giroflex',
+      'Pisca-alerta / indicadores de direção',
+      'Limpador de para-brisas (palhetas) e/ou esguicho de água',
+      'Luzes internas',
+      'Alertas sonoros (ré e descarga) / Buzina',
     ]},
     { id: 'seguranca', icon: '🛡️', label: 'Segurança e Ergonomia', items: [
-      'Cinto de segurança funcional',
-      'Espelhos retrovisores interno e externo ajustados',
-      'Freio de estacionamento funcionando',
-      'Amortecedores sem vazamento / sem ruídos anormais',
-      'Tacógrafo funcionando',
-      'Velocímetro / painel funcionando',
+      'Cintos de segurança — cabine e casinha',
+      'Portas / travas / fechamentos / escada',
+      'Direção — volante, ruídos, folgas, funcionamento',
+      'Espelhos retrovisores interno e externo (trincas e fixação) / Vidros (janelas e para-brisa)',
+      'Freio de estacionamento / Freio de serviço',
+      'Amortecedores / Suspensão',
+      'Tacógrafo — funcionamento e condição do disco/registro',
+      'Velocímetro / Painel — luzes de advertência',
+      'Interclima — cabine e casinha',
+      'Extintor — validade, lacre, pressão e fixação',
     ]},
     { id: 'pneus', icon: '⚫', label: 'Pneus', items: [
-      'Calibragem dos pneus adequada (todos os eixos)',
-      'Pneu estepe disponível e calibrado',
+      'Pneus — calibragem, cortes, bolhas, desgaste e condições gerais',
+      'Pneu estepe — existência e condições de uso',
+      'Rodas e porcas — amassados, danos ou porcas aparentemente soltas',
     ]},
     { id: 'fluidos', icon: '🛢️', label: 'Fluidos e Motor', items: [
-      'Nível de óleo do motor',
-      'Próxima troca de óleo dentro do prazo',
+      'Óleo do motor / Líquido de arrefecimento / Combustível (Diesel)',
+      'Fluido de freio / Fluido hidráulico (quando aplicável)',
+      'Próxima troca de óleo (não conforme se faltar menos de 200 km)',
+      'Níveis de óleo e fluidos dos equipamentos',
+      'Vazamentos aparentes de óleo / combustível / água / fluídos / ar',
     ]},
     { id: 'implementos', icon: '🔩', label: 'Implementos e Acessórios', items: [
-      'Implementos e acessórios (rompedor, gerador, etc.) em bom estado',
-      'Botijão de gás (P13/P45) — fixação, válvula e mangueira sem vazamentos (quando aplicável)',
+      'Rompedor, Gerador, Placa, Compactador-Sapo, Policorte — todos os itens em boa condição para executar o trabalho hoje?',
+      'Botijão de Gás / Manômetro — quantidade suficiente para a atividade programada e manômetro funcionando',
+      'Discos de corte, ponteira do rompedor, bomba sucção, etc. — suficiente para o trabalho hoje?',
+      'EPCs — Cones, Fita Zebrada, Placas, Cavaletes, etc. — suficiente para o trabalho hoje?',
+    ]},
+    { id: 'analise_final', icon: '✅', label: 'Análise Final / Geral', items: [
+      'O veículo, equipamentos, ferramentas, consumíveis, EPIs e EPCs necessários estão disponíveis e em condições de uso para a atividade programada hoje?',
     ]},
   ],
 
@@ -525,7 +560,7 @@ function carregarChecklist(categoria) {
               '<div class="rb nok" onclick="setStatus(\'' + s.id + '\',' + i + ',\'nok\',this)">❌ Não conforme</div>' +
               '<div class="rb na"  onclick="setStatus(\'' + s.id + '\',' + i + ',\'na\',this)">— N/A</div>' +
             '</div>' +
-            '<textarea class="obs-field" id="obs-' + s.id + '-' + i + '" placeholder="Descreva a não conformidade..." rows="2"></textarea>' +
+            '<textarea class="obs-field obrigatorio" id="obs-' + s.id + '-' + i + '" placeholder="⚠️ Obrigatório: descreva a não conformidade..." rows="2"></textarea>' +
           '</div>'
         ).join('') +
       '</div>';
@@ -533,6 +568,7 @@ function carregarChecklist(categoria) {
   });
 
   document.getElementById('summary-box').style.display = 'grid';
+  document.getElementById('obs-gerais-box').style.display = 'block';
   document.getElementById('aviso-pendentes').classList.remove('show');
   updateSummary();
 }
@@ -545,6 +581,7 @@ function limparChecklist() {
   document.getElementById('sections-container').innerHTML =
     '<div class="checklist-placeholder"><span class="big">🔍</span><p>Selecione a placa ou TAG para carregar o checklist correspondente</p></div>';
   document.getElementById('summary-box').style.display = 'none';
+  document.getElementById('obs-gerais-box').style.display = 'none';
   document.getElementById('aviso-pendentes').classList.remove('show');
   document.getElementById('progress-bar').style.width = '0%';
 }
@@ -598,41 +635,76 @@ function resetForm() {
   document.getElementById('f-veiculo').value   = '';
   document.getElementById('f-hodometro').value = '';
   document.getElementById('f-data').value = new Date().toISOString().split('T')[0];
+  if (document.getElementById('obs-gerais')) document.getElementById('obs-gerais').value = '';
+  // Limpa classes de validação
+  document.querySelectorAll('.obs-field.vazia').forEach(el => el.classList.remove('vazia'));
+  document.querySelectorAll('.item.nao-preenchido').forEach(el => el.classList.remove('nao-preenchido'));
   limparChecklist();
 }
 
 // ---- VALIDAÇÃO E ENVIO ----
 function validarChecklist() {
-  if (!categoriaAtual) return { ok: false, msg: 'Selecione uma placa para carregar o checklist.' };
+  if (!categoriaAtual) return { ok: false };
 
   const sections = CHECKLISTS[categoriaAtual];
   const pendentes = [];
+  const semObservacao = [];
 
   sections.forEach(s => {
     s.items.forEach((item, i) => {
-      if (!state[s.id + '-' + i]) {
+      const key = s.id + '-' + i;
+      const status = state[key];
+      // Item não avaliado
+      if (!status) {
         pendentes.push({ secId: s.id, idx: i, secLabel: s.label, item });
+      }
+      // Item NOK sem observação
+      if (status === 'nok') {
+        const obsEl = document.getElementById('obs-' + s.id + '-' + i);
+        const obsVal = obsEl ? obsEl.value.trim() : '';
+        if (!obsVal) {
+          semObservacao.push({ secId: s.id, idx: i, secLabel: s.label, item, obsEl });
+        }
       }
     });
   });
 
-  if (pendentes.length > 0) {
-    // Destaca itens não preenchidos
-    pendentes.forEach(p => {
-      const el = document.getElementById('item-' + p.secId + '-' + p.idx);
-      if (el) el.classList.add('nao-preenchido');
-      // Abre a seção que tem pendente
-      const body = document.getElementById('body-' + p.secId);
-      const hdr  = document.getElementById('hdr-'  + p.secId);
-      if (body && body.classList.contains('hidden')) {
-        body.classList.remove('hidden');
-        hdr.classList.remove('collapsed');
-      }
-    });
+  // Abre seções com problemas e destaca itens
+  const secoesComErro = new Set();
 
+  pendentes.forEach(p => {
+    const el = document.getElementById('item-' + p.secId + '-' + p.idx);
+    if (el) el.classList.add('nao-preenchido');
+    secoesComErro.add(p.secId);
+  });
+
+  semObservacao.forEach(p => {
+    if (p.obsEl) {
+      p.obsEl.classList.add('vazia');
+      p.obsEl.addEventListener('input', function() {
+        if (this.value.trim()) this.classList.remove('vazia');
+      }, { once: true });
+    }
+    secoesComErro.add(p.secId);
+  });
+
+  // Abre seções com erros
+  secoesComErro.forEach(secId => {
+    const body = document.getElementById('body-' + secId);
+    const hdr  = document.getElementById('hdr-'  + secId);
+    if (body && body.classList.contains('hidden')) {
+      body.classList.remove('hidden');
+      if (hdr) hdr.classList.remove('collapsed');
+    }
+  });
+
+  const totalErros = pendentes.length + semObservacao.length;
+  if (totalErros > 0) {
     const aviso = document.getElementById('aviso-pendentes');
-    document.getElementById('aviso-texto').textContent =
-      pendentes.length + ' item(ns) não preenchido(s). Os campos destacados em laranja precisam ser avaliados antes do envio.';
+    let msg = '';
+    if (pendentes.length > 0) msg += pendentes.length + ' item(ns) não avaliado(s). ';
+    if (semObservacao.length > 0) msg += semObservacao.length + ' item(ns) marcado(s) como Não Conforme sem observação preenchida.';
+    document.getElementById('aviso-texto').textContent = msg.trim();
     aviso.classList.add('show');
     aviso.scrollIntoView({ behavior: 'smooth', block: 'center' });
     return { ok: false };
@@ -676,6 +748,7 @@ async function submitChecklist() {
     hodometro: document.getElementById('f-hodometro').value.trim(),
     categoria: categoriaAtual,
     usuario:   usuarioLogado ? usuarioLogado.usuario : '',
+    obsGerais: document.getElementById('obs-gerais') ? document.getElementById('obs-gerais').value.trim() : '',
     itens,
     timestamp: new Date().toLocaleString('pt-BR'),
   };
