@@ -63,6 +63,9 @@
   .card-body.hidden { display: none; }
   .card.tem-pendente > .card-header { background: #fff7ed; border-bottom-color: #fed7aa; }
   .card.tem-pendente > .card-header .badge { background: #fed7aa; color: #92400e; }
+  .card.outro-item > .card-header { background: #f0fdf4; border-bottom-color: #86efac; }
+  .card.outro-item > .card-header .title { color: #166534; }
+  .card.outro-item > .card-header .icon { filter: none; }
 
   /* ITEM */
   .item { padding: 10px 16px; border-bottom: 1px solid #f3f4f6; }
@@ -290,37 +293,40 @@ const CHECKLISTS = {
     { id: 'implementos', icon: '🔩', label: 'Implementos e Acessórios', items: [
       'Implementos e acessórios (rompedor, gerador, etc.) em bom estado',
     ]},
+    { id: 'outro_carro', icon: '➕', label: 'Outro Item', items: [
+      'Outro item não listado acima (descreva na observação)',
+    ]},
   ],
 
   'Caminhões': [
     { id: 'conservacao', icon: '🚚', label: 'Conservação Geral', items: [
       'Chassi / Cabine / Casinha / Lataria — condições gerais de conservação',
       'Placa do veículo — dianteira e traseira',
-      'Adesivos de identificação / faixas refletivas (não conforme: descascados, rasgados ou apagados)',
+      'Adesivos de identificação / faixas refletivas (não conforme: descascados, rasgados ou partes apagadas)',
       'Para-choques dianteiro e traseiro',
-      'Estado de conservação do implemento — Silo Térmico / Caçamba / Outros',
-      'Limpeza (não conforme: lixeiras, excesso de resíduos que prejudiquem a operação)',
-      'Estado de conservação dos bancos (cabine e casinha)',
+      'Estado de conservação do implemento — SILO TÉRMICO / CAÇAMBA / OUTROS',
+      'Limpeza (não conforme: necessidade de lixeiras ou excesso de resíduos que prejudiquem a operação)',
+      'Estado de conservação dos bancos — cabine e casinha',
     ]},
     { id: 'iluminacao', icon: '💡', label: 'Iluminação e Sinalização', items: [
-      'Faróis dianteiros (alto e baixo)',
+      'Faróis dianteiros — alto e baixo',
       'Lanternas traseiras',
       'Luzes de freio / posição / placa',
       'Luz de ré / Giroflex',
       'Pisca-alerta / indicadores de direção',
       'Limpador de para-brisas (palhetas) e/ou esguicho de água',
-      'Luzes internas',
+      'Luzes internas da cabine',
       'Alertas sonoros (ré e descarga) / Buzina',
     ]},
     { id: 'seguranca', icon: '🛡️', label: 'Segurança e Ergonomia', items: [
       'Cintos de segurança — cabine e casinha',
-      'Portas / travas / fechamentos / escada',
-      'Direção — volante, ruídos, folgas, funcionamento',
-      'Espelhos retrovisores interno e externo (trincas e fixação) / Vidros (janelas e para-brisa)',
-      'Freio de estacionamento / Freio de serviço',
-      'Amortecedores / Suspensão',
-      'Tacógrafo — funcionamento e condição do disco/registro',
-      'Velocímetro / Painel — luzes de advertência',
+      'Portas / travas / fechamentos / escada de acesso',
+      'Direção — volante, ruídos, folgas e funcionamento geral',
+      'Espelhos retrovisores interno e externo (trincas e fixação) / vidros (janelas e para-brisa)',
+      'Freio de estacionamento / freio de serviço',
+      'Amortecedores / suspensão',
+      'Tacógrafo — verificar funcionamento e condição do disco/registro',
+      'Velocímetro / painel — luzes de advertência do painel',
       'Interclima — cabine e casinha',
       'Extintor — validade, lacre, pressão e fixação',
     ]},
@@ -330,20 +336,23 @@ const CHECKLISTS = {
       'Rodas e porcas — amassados, danos ou porcas aparentemente soltas',
     ]},
     { id: 'fluidos', icon: '🛢️', label: 'Fluidos e Motor', items: [
-      'Óleo do motor / Líquido de arrefecimento / Combustível (Diesel)',
-      'Fluido de freio / Fluido hidráulico (quando aplicável)',
-      'Próxima troca de óleo (não conforme se faltar menos de 200 km)',
-      'Níveis de óleo e fluidos dos equipamentos',
+      'Óleo do motor / líquido de arrefecimento / combustível (Diesel)',
+      'Fluido de freio / fluido hidráulico (quando aplicável)',
+      'Próxima troca de óleo — não conforme se faltar menos de 200 km',
+      'Níveis de óleo e fluidos dos equipamentos acoplados',
       'Vazamentos aparentes de óleo / combustível / água / fluídos / ar',
     ]},
     { id: 'implementos', icon: '🔩', label: 'Implementos e Acessórios', items: [
-      'Rompedor, Gerador, Placa, Compactador-Sapo, Policorte — todos os itens em boa condição para executar o trabalho hoje?',
-      'Botijão de Gás / Manômetro — quantidade suficiente para a atividade programada e manômetro funcionando',
-      'Discos de corte, ponteira do rompedor, bomba sucção, etc. — suficiente para o trabalho hoje?',
-      'EPCs — Cones, Fita Zebrada, Placas, Cavaletes, etc. — suficiente para o trabalho hoje?',
+      'Rompedor, gerador, placa, compactador-sapo, policorte — todos os itens em boa condição para o trabalho de hoje?',
+      'Botijão de gás / manômetro — quantidade suficiente para a atividade programada e manômetro em funcionamento',
+      'Discos de corte, ponteira do rompedor, bomba sucção, etc. — quantidade suficiente para o trabalho de hoje?',
+      'EPCs — cones, fita zebrada, placas, cavaletes, etc. — quantidade suficiente para o trabalho de hoje?',
     ]},
     { id: 'analise_final', icon: '✅', label: 'Análise Final / Geral', items: [
       'O veículo, equipamentos, ferramentas, consumíveis, EPIs e EPCs necessários estão disponíveis e em condições de uso para a atividade programada hoje?',
+    ]},
+    { id: 'outro_caminhao', icon: '➕', label: 'Outro Item', items: [
+      'Outro item não listado acima (descreva na observação)',
     ]},
   ],
 
@@ -389,6 +398,9 @@ const CHECKLISTS = {
       'Condições de fumaça do escapamento normais',
       'Sem vazamento de combustível ou óleo',
     ]},
+    { id: 'outro_pesado', icon: '➕', label: 'Outro Item', items: [
+      'Outro item não listado acima (descreva na observação)',
+    ]},
   ],
 
   'Equipamentos Leves': [
@@ -415,6 +427,9 @@ const CHECKLISTS = {
       'Placa / sapata de compactação sem trincas (placa vibratória / sapo)',
       'Mangote e conexões sem furos ou desgaste (motobomba)',
       'Proteções de segurança / protetor de mãos presentes',
+    ]},
+    { id: 'outro_leve', icon: '➕', label: 'Outro Item', items: [
+      'Outro item não listado acima (descreva na observação)',
     ]},
   ],
 };
@@ -542,7 +557,7 @@ function carregarChecklist(categoria) {
   c.innerHTML = '';
   sections.forEach(s => {
     const div = document.createElement('div');
-    div.className = 'card';
+    div.className = 'card' + (s.id.startsWith('outro_') ? ' outro-item' : '');
     div.id = 'card-' + s.id;
     div.innerHTML =
       '<div class="card-header" id="hdr-' + s.id + '" onclick="toggleSection(\'' + s.id + '\')">' +
