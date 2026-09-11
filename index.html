@@ -775,9 +775,22 @@ async function submitChecklist() {
     await fetch(APPS_SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload) });
     showToast('✅ Checklist enviado com sucesso!');
     resetForm();
+    // Bloqueia o botão por 30 segundos após envio bem-sucedido
+    let segundos = 30;
+    btn.disabled = true;
+    btn.textContent = '⏳ Aguarde ' + segundos + 's para novo envio';
+    const intervalo = setInterval(() => {
+      segundos--;
+      if (segundos <= 0) {
+        clearInterval(intervalo);
+        btn.disabled = false;
+        btn.textContent = '📤 Enviar Checklist';
+      } else {
+        btn.textContent = '⏳ Aguarde ' + segundos + 's para novo envio';
+      }
+    }, 1000);
   } catch (e) {
     showToast('❌ Erro ao enviar. Verifique o Apps Script.', true);
-  } finally {
     btn.disabled = false; btn.textContent = '📤 Enviar Checklist';
   }
 }
