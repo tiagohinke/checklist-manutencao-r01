@@ -82,6 +82,14 @@
   .obs-field.show { display: block; }
   .obs-field.obrigatorio.show { border-color: #fca5a5; }
   .obs-field.obrigatorio.show.vazia { border-color: #dc2626; background: #fff0f0; box-shadow: 0 0 0 2px rgba(220,38,38,0.15); }
+  .foto-wrap { margin-top: 8px; display: none; }
+  .foto-wrap.show { display: block; }
+  .foto-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: #f0f9ff; border: 1px solid #7dd3fc; border-radius: 8px; font-size: 12px; color: #0369a1; cursor: pointer; font-family: inherit; font-weight: 500; transition: all 0.15s; }
+  .foto-btn:hover { background: #e0f2fe; }
+  .foto-input { display: none; }
+  .foto-preview-wrap { margin-top: 8px; position: relative; display: inline-block; }
+  .foto-preview { max-width: 180px; max-height: 180px; border-radius: 8px; border: 1px solid #d1d5db; display: block; }
+  .foto-remove { position: absolute; top: -6px; right: -6px; background: #dc2626; color: #fff; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; line-height: 1; }
 
   /* META */
   .meta-form { background: #fff; border-radius: 12px; border: 1px solid #e5e7eb; padding: 16px; margin-bottom: 12px; }
@@ -576,6 +584,13 @@ function carregarChecklist(categoria) {
               '<div class="rb na"  onclick="setStatus(\'' + s.id + '\',' + i + ',\'na\',this)">— N/A</div>' +
             '</div>' +
             '<textarea class="obs-field obrigatorio" id="obs-' + s.id + '-' + i + '" placeholder="⚠️ Obrigatório: descreva a não conformidade..." rows="2"></textarea>' +
+            '<div class="foto-wrap" id="foto-wrap-' + s.id + '-' + i + '">' +
+              '<button type="button" class="foto-btn" onclick="acionarFoto(\'' + s.id + '\', ' + i + ')">' +
+                '📷 Adicionar foto (opcional)' +
+              '</button>' +
+              '<input type="file" class="foto-input" id="foto-input-' + s.id + '-' + i + '" accept="image/*" capture="environment" onchange="processarFoto(\'' + s.id + '\', ' + i + ', this)">' +
+              '<div id="foto-preview-' + s.id + '-' + i + '"></div>' +
+            '</div>' +
           '</div>'
         ).join('') +
       '</div>';
@@ -613,6 +628,10 @@ function setStatus(sec, idx, val, el) {
   el.classList.add('sel');
   itemEl.classList.remove('nao-preenchido');
   document.getElementById('obs-' + sec + '-' + idx).classList.toggle('show', val === 'nok');
+  const fotoWrap = document.getElementById('foto-wrap-' + sec + '-' + idx);
+  if (fotoWrap) fotoWrap.classList.toggle('show', val === 'nok');
+  // Limpa foto se desmarcar NOK
+  if (val !== 'nok') removerFoto(sec, idx);
   updateBadge(sec);
   updateSummary();
 }
@@ -654,6 +673,7 @@ function resetForm() {
   // Limpa classes de validação
   document.querySelectorAll('.obs-field.vazia').forEach(el => el.classList.remove('vazia'));
   document.querySelectorAll('.item.nao-preenchido').forEach(el => el.classList.remove('nao-preenchido'));
+  Object.keys(fotosState).forEach(k => delete fotosState[k]);
   limparChecklist();
 }
 
@@ -753,6 +773,7 @@ async function submitChecklist() {
         secao: s.label, item,
         status: state[s.id + '-' + i] || 'Não avaliado',
         observacao: (document.getElementById('obs-' + s.id + '-' + i) || {}).value || '',
+        foto: fotosState[s.id + '-' + i] || '',
       });
     });
   });
@@ -793,6 +814,55 @@ async function submitChecklist() {
     showToast('❌ Erro ao enviar. Verifique o Apps Script.', true);
     btn.disabled = false; btn.textContent = '📤 Enviar Checklist';
   }
+}
+
+// ---- FOTOS ----
+const fotosState = {}; // chave: "secId-idx" → base64
+
+function acionarFoto(secId, idx) {
+  const input = document.getElementById('foto-input-' + secId + '-' + idx);
+  if (input) input.click();
+}
+
+function processarFoto(secId, idx, input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    // Comprime a imagem para max 800px / qualidade 0.6
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.createElement('canvas');
+      const MAX = 800;
+      let w = img.width, h = img.height;
+      if (w > MAX || h > MAX) {
+        if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
+        else        { w = Math.round(w * MAX / h); h = MAX; }
+      }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      const base64 = canvas.toDataURL('image/jpeg', 0.6);
+      fotosState[secId + '-' + idx] = base64;
+
+      // Mostra preview
+      const wrap = document.getElementById('foto-preview-' + secId + '-' + idx);
+      wrap.innerHTML =
+        '<div class="foto-preview-wrap">' +
+          '<img class="foto-preview" src="' + base64 + '" alt="Foto da não conformidade">' +
+          '<button class="foto-remove" onclick="removerFoto(\'' + secId + '\', ' + idx + ')" title="Remover foto">✕</button>' +
+        '</div>';
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function removerFoto(secId, idx) {
+  delete fotosState[secId + '-' + idx];
+  const wrap = document.getElementById('foto-preview-' + secId + '-' + idx);
+  if (wrap) wrap.innerHTML = '';
+  const input = document.getElementById('foto-input-' + secId + '-' + idx);
+  if (input) input.value = '';
 }
 
 function showToast(msg, isError) {
